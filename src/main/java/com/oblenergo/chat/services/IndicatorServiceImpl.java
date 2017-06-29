@@ -44,6 +44,7 @@ public class IndicatorServiceImpl implements IndicatorService {
     IndicatorDTO indicatorDTO = new IndicatorDTO();
     indicatorDTO.setAccountNumber(accountNumber);
     indicatorDTO.setCounterValue(oneZoneDTO.getIndicator());
+    indicatorDTO.setPhoneNumber(oneZoneDTO.getPhoneNumber());
     return saveIndicator(indicatorDTO);
   }
 
@@ -53,6 +54,7 @@ public class IndicatorServiceImpl implements IndicatorService {
     IndicatorDTO indicatorDTO = new IndicatorDTO();
     indicatorDTO.setAccountNumber(accountNumber);
     indicatorDTO.setCounterValue(twoZoneDTO.getDayIndicator() + "/" + twoZoneDTO.getNightIndicator());
+    indicatorDTO.setPhoneNumber(twoZoneDTO.getPhoneNumber());
     return saveIndicator(indicatorDTO);
   }
 
@@ -62,6 +64,7 @@ public class IndicatorServiceImpl implements IndicatorService {
     IndicatorDTO indicatorDTO = new IndicatorDTO();
     indicatorDTO.setAccountNumber(accountNumber);
     indicatorDTO.setCounterValue(threeZoneDTO.getPeakIndicator() + "/" + threeZoneDTO.getHalfPeakIndicator() + "/" + threeZoneDTO.getNightIndicator());
+    indicatorDTO.setPhoneNumber(threeZoneDTO.getPhoneNumber());
     return saveIndicator(indicatorDTO);
   }
  

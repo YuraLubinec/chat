@@ -22,4 +22,6 @@ public class IndicatorOneZoneDTO implements Serializable {
   @Size(max=8)
   private String indicator;
 
+  @Pattern(regexp = "(((\\+38)|(38))(\\d){10})|(\\d){10}")
+  private String phoneNumber;
 }
