@@ -18,7 +18,7 @@ public class User implements Serializable {
   @Id
   private String id;
   @Field
-  private String name;
+  private String username;
   @Field
   private String password;
   @Field

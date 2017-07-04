@@ -5,9 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.oblenergo.chat.models.PhysCustomer;
 
+@Transactional(readOnly=true)
 public interface PhysCustomerRepository extends JpaRepository<PhysCustomer, Long>{
   
-  @Transactional(readOnly=true)
   PhysCustomer findByAccountNumber(String accountNumber);
-
 }

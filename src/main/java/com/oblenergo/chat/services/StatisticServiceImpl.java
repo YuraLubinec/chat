@@ -14,8 +14,6 @@ import com.oblenergo.chat.repositories.JuridicalCustomerRepository;
 import com.oblenergo.chat.repositories.PhysCustomerRepository;
 import com.oblenergo.chat.repositories.StatisticRepository;
 
-
-
 @Service
 @Transactional
 public class StatisticServiceImpl implements StatisticService {

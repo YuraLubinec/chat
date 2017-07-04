@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.oblenergo.chat.dto.TurnOffReportDTO;
 import com.oblenergo.chat.enums.Reasons;
@@ -17,6 +18,7 @@ import com.oblenergo.chat.repositories.TurnOffReportJurRepository;
 import com.oblenergo.chat.repositories.TurnOffReportPhysRepository;
 
 @Service
+@Transactional(readOnly=true)
 public class ReportServiceImpl implements ReportService {
 
   private static final int SEC_LENGTH = 5;

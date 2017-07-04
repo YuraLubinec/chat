@@ -5,9 +5,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.oblenergo.chat.models.JuridicalCustomer;
 
+@Transactional(readOnly=true)
 public interface JuridicalCustomerRepository extends JpaRepository<JuridicalCustomer, Long> {
   
-  @Transactional(readOnly=true)
   JuridicalCustomer findTopByContractNumber(String contractNumber);
 
 }

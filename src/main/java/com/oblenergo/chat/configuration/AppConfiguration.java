@@ -20,7 +20,7 @@ public class AppConfiguration extends WebMvcConfigurerAdapter {
     registry.addMapping("/**");
 //    production
 //    registry.addMapping("/**").allowedMethods("GET", "POST", "OPTIONS")
-//        .allowedOrigins(environment.getRequiredProperty("allow.origin.local"),environment.getRequiredProperty("allow.origin.global")).allowCredentials(false);
+//        .allowedOrigins(environment.getRequiredProperty("allow.origin.local"),environment.getRequiredProperty("allow.origin.global"));
   }
 
 }

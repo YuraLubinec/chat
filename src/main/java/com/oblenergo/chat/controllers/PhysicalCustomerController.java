@@ -16,7 +16,6 @@ import com.oblenergo.chat.dto.IndicatorTwoZoneDTO;
 import com.oblenergo.chat.dto.TurnOffReportDTO;
 import com.oblenergo.chat.models.PhysCustomer;
 import com.oblenergo.chat.repositories.PhysCustomerRepository;
-import com.oblenergo.chat.repositories.UserRepository;
 import com.oblenergo.chat.services.BillService;
 import com.oblenergo.chat.services.IndicatorService;
 import com.oblenergo.chat.services.ReportService;
@@ -36,14 +35,9 @@ public class PhysicalCustomerController {
 
   @Autowired
   private BillService billService;
-
-  @Autowired
-  private UserRepository userRepository;
   
   @GetMapping
   public PhysCustomer checkId(@PathVariable String accountNumber) {
-    
-    System.out.println(userRepository.findOneByName("developer"));
 
     return physCustomerRepository.findByAccountNumber(accountNumber);
   }
