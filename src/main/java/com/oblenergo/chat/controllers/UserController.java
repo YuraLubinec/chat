@@ -16,8 +16,8 @@ public class UserController {
   @GetMapping("/authority")
   public UserAuthorityDTO checkAuthority(Authentication authentication){
     
-    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
     UserAuthorityDTO user = new UserAuthorityDTO();
+    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
     user.setUsername(userDetails.getUsername());
     for (GrantedAuthority authority : userDetails.getAuthorities()){
       user.setRole(authority.getAuthority());
