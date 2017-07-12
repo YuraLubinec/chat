@@ -10,9 +10,9 @@ public class ChatController {
   @MessageMapping("/connect")
   @SendTo("/topic/allChat")
   public String testWebSocket(String message){
-  
+
     System.out.println(message);
-    return "Hello "+ message + "!";
+    return message;
   }
 
 }
