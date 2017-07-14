@@ -23,8 +23,4 @@ public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfig
     config.setApplicationDestinationPrefixes("/chat");
   }
   
-  
-  
-  
-
 }
