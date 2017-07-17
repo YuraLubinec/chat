@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.oblenergo.chat.dto.JuridicalIdentifier;
+import com.oblenergo.chat.dto.JuridicalIdentifierDTO;
 import com.oblenergo.chat.dto.TurnOffReportDTO;
 import com.oblenergo.chat.models.JuridicalCustomer;
 import com.oblenergo.chat.repositories.JuridicalCustomerRepository;
@@ -29,14 +29,14 @@ public class JuridicalCustomerController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.OK)
-  public JuridicalCustomer JuridicalCustomercheckContractNumber(@Validated @RequestBody JuridicalIdentifier identifier) {
+  public JuridicalCustomer JuridicalCustomercheckContractNumber(@Validated @RequestBody JuridicalIdentifierDTO identifier) {
  
     return juridicalCustomerRepository.findTopByContractNumber(identifier.getContractNumber());
   }
 
   @PostMapping("/report")
   @ResponseStatus(HttpStatus.OK)
-  public List<TurnOffReportDTO> getEnergyReport(@Validated @RequestBody JuridicalIdentifier identifier) {
+  public List<TurnOffReportDTO> getEnergyReport(@Validated @RequestBody JuridicalIdentifierDTO identifier) {
 
     return reportService.getTurnOffReportjJur(identifier.getContractNumber());
   }

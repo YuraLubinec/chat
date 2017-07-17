@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class JuridicalIdentifier implements Serializable {
+public class JuridicalIdentifierDTO implements Serializable {
 
   private static final long serialVersionUID = 1194424216574565686L;
   

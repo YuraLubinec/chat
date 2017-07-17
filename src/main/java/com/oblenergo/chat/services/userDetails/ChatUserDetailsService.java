@@ -22,11 +22,12 @@ public class ChatUserDetailsService implements UserDetailsService {
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     
     final User user = userRepository.findOneByUsername(username);
+
     if (user == null) {
       throw new UsernameNotFoundException(username);
     }
     return new org.springframework.security.core.userdetails.User(username, user.getPassword(), true, true, true, true,
-        Arrays.asList(new SimpleGrantedAuthority(user.getRole())));
+        Arrays.asList(new SimpleGrantedAuthority(user.getRole().toString())));
   }
 
   
