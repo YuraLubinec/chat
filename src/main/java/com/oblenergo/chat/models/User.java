@@ -34,7 +34,7 @@ public class User implements Serializable {
   private String password;
   @Field 
   @NotBlank
-  @Size(max=20)
+  @Size(max=25)
   private String fullName;
   
   @Field

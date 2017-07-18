@@ -35,14 +35,15 @@ public class UserController {
   @Autowired
   private RegistrationValidator registrationValidator;
   
+  @Autowired
+  private UserRepository userRepository;
+  
   @InitBinder("user")
   public void initBinder(WebDataBinder binder){
+    
     binder.registerCustomEditor(Roles.class, roleEditor);
     binder.addValidators(registrationValidator);
   }
-  
-  @Autowired
-  private UserRepository userRepository;
 
   @GetMapping("/authority")
   public UserAuthorityDTO checkAuthority(Authentication authentication) {
@@ -69,6 +70,5 @@ public class UserController {
   public void saveUser(@Validated @RequestBody User user) {
     
     userRepository.save(user);
-
   }
 }
