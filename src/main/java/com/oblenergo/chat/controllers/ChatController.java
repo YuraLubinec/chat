@@ -1,6 +1,7 @@
 package com.oblenergo.chat.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -16,11 +17,11 @@ public class ChatController {
   @Autowired
   private DialogService dialogService;
 
-  @MessageMapping("/connect")
+  @MessageMapping("/connect/{client_id}")
   @SendTo("/topic/allChat")
-  public ConnectMessageDTO testWebSocket(ConnectMessageDTO id) {
+  public ConnectMessageDTO testWebSocket(@DestinationVariable String client_id) {
 
-    return dialogService.createDialogAndReturnId(id.getId());
+    return dialogService.createDialogAndReturnId(client_id);
   }
 
   @MessageMapping("/checkClientRequestArray")

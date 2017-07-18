@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -22,6 +23,7 @@ import com.oblenergo.chat.editors.RoleEditor;
 import com.oblenergo.chat.enums.Roles;
 import com.oblenergo.chat.models.User;
 import com.oblenergo.chat.repositories.UserRepository;
+import com.oblenergo.chat.validators.RegistrationValidator;
 
 @RestController
 @RequestMapping("/user")
@@ -30,9 +32,13 @@ public class UserController {
   @Autowired
   private RoleEditor roleEditor;
   
+  @Autowired
+  private RegistrationValidator registrationValidator;
+  
   @InitBinder("user")
   public void initBinder(WebDataBinder binder){
     binder.registerCustomEditor(Roles.class, roleEditor);
+    binder.addValidators(registrationValidator);
   }
   
   @Autowired
@@ -60,7 +66,7 @@ public class UserController {
   }
 
   @PostMapping("/registration")
-  public void saveUser(@RequestBody User user) {
+  public void saveUser(@Validated @RequestBody User user) {
     
     userRepository.save(user);
 
