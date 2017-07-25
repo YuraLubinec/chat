@@ -1,6 +1,10 @@
 package com.oblenergo.chat.services;
 
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -12,6 +16,7 @@ import com.oblenergo.chat.dto.WebSocketMessageDTO;
 import com.oblenergo.chat.models.Dialog;
 import com.oblenergo.chat.models.Message;
 import com.oblenergo.chat.repositories.DialogRepository;
+
 
 @Service
 public class DialogServiceImpl implements DialogService {
@@ -28,8 +33,13 @@ public class DialogServiceImpl implements DialogService {
     LocalDateTime dt = LocalDateTime.now();
     Dialog dialog = new Dialog();
     dialog.setCustomer_id(id);
-    dialog.setDate(dt.toString());
-    dialogRepository.insert(dialog);
+    dialog.setDate(Date.from(dt.atZone(ZoneId.systemDefault()).toInstant()));
+    dialogRepository.insert(dialog);    
+    return createAndReturnConnectMessageDTO(dialog, id);
+  }
+  
+  private ConnectMessageDTO createAndReturnConnectMessageDTO(Dialog dialog, String id){
+  
     ConnectMessageDTO dto = new ConnectMessageDTO();
     dto.setDialog_id(dialog.getId());
     dto.setId(id);
@@ -39,8 +49,18 @@ public class DialogServiceImpl implements DialogService {
   @Async
   @Override
   public void addOperatorToTheDialog(ConnectMessageDTO message) {
+  
+    Dialog dialog = dialogRepository.findOne(message.getDialog_id());
+    dialog.setHoldTime(calculateHoldTime(dialog));
+    dialog.setOperator(message.getId());
+    dialogRepository.save(dialog);
+  }
+  
+  private long calculateHoldTime(Dialog dialog){
     
-    dialogDao.findAndModifyOperatorName(message.getDialog_id(), message.getId());
+    LocalDateTime now = LocalDateTime.now();
+    LocalDateTime dt = dialog.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+    return Duration.between(dt, now).getSeconds();
   }
 
   @Async
@@ -48,10 +68,11 @@ public class DialogServiceImpl implements DialogService {
   public void saveMessageFromOperator(WebSocketMessageDTO message) {
     
     LocalDateTime dt = LocalDateTime.now();
+    LocalDate d = LocalDate.now();
     Message m = new Message();
     m.setText(message.getText());
     m.setOperator_login("operator");
-    m.setDate(dt.toString());
+    m.setDate(d.toString());
     m.setTime(dt.getHour()+":"+dt.getMinute()+":"+dt.getSecond());
     dialogDao.findAndPushMessage(message.getDialog_id(), m);
   }
@@ -61,9 +82,10 @@ public class DialogServiceImpl implements DialogService {
   public void saveMessageFromClient(WebSocketMessageDTO message) {
    
     LocalDateTime dt = LocalDateTime.now();
+    LocalDate d = LocalDate.now();
     Message m = new Message();
     m.setText(message.getText());
-    m.setDate(dt.toString());
+    m.setDate(d.toString());
     m.setTime(dt.getHour()+":"+dt.getMinute()+":"+dt.getSecond());
     dialogDao.findAndPushMessage(message.getDialog_id(), m);
   }

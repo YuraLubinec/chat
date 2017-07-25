@@ -1,6 +1,7 @@
 package com.oblenergo.chat.models;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Id;
@@ -19,13 +20,13 @@ public class Dialog implements Serializable{
   @Id
   private String id;
   @Field
-  private String date;
+  private Date date;
   @Field
   private String customer_id;
   @Field
   private String operator;
   @Field
-  private String holdTime;
+  private long holdTime;
   @Field
   private int rate;
   @Field

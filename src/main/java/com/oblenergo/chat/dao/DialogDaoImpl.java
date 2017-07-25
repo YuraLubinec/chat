@@ -17,12 +17,6 @@ public class DialogDaoImpl implements DialogDao {
   MongoTemplate mongoTemplate;
 
   @Override
-  public void findAndModifyOperatorName(String dialog_id, String operator) {
-    mongoTemplate.findAndModify(
-        new Query().addCriteria(Criteria.where("id").is(dialog_id)), new Update().set("operator", operator), Dialog.class);
-  }
-
-  @Override
   public void findAndPushMessage(String dialog_id, Message m) {
     mongoTemplate.findAndModify(
         new Query().addCriteria(Criteria.where("id").is(dialog_id)), new Update().push("messages", m), Dialog.class);
