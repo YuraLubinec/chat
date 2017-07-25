@@ -56,10 +56,11 @@ public class ChatController {
     return message;
   }
   
-  @MessageMapping("/endNotification/{client_id}")
+  @MessageMapping("/endNotification/{client_id}/{dialog_id}")
   @SendTo("/queue/{client_id}")
-  public EndConnectionDTO notifyAboutConnectionEnd(){
-  
+  public EndConnectionDTO notifyAboutConnectionEnd(@DestinationVariable String dialog_id){
+    
+    dialogService.addChatEndedMessage(dialog_id);
     return new EndConnectionDTO();
   }
 

@@ -17,9 +17,11 @@ import com.oblenergo.chat.models.Dialog;
 import com.oblenergo.chat.models.Message;
 import com.oblenergo.chat.repositories.DialogRepository;
 
-
 @Service
 public class DialogServiceImpl implements DialogService {
+  
+  private static final String CHAT_ENDED = "Оператор завершив чат";
+  private ZoneId zoneId = ZoneId.systemDefault();
 
   @Autowired
   private DialogRepository dialogRepository;
@@ -33,7 +35,7 @@ public class DialogServiceImpl implements DialogService {
     LocalDateTime dt = LocalDateTime.now();
     Dialog dialog = new Dialog();
     dialog.setCustomer_id(id);
-    dialog.setDate(Date.from(dt.atZone(ZoneId.systemDefault()).toInstant()));
+    dialog.setDate(Date.from(dt.atZone(zoneId).toInstant()));
     dialogRepository.insert(dialog);    
     return createAndReturnConnectMessageDTO(dialog, id);
   }
@@ -59,7 +61,7 @@ public class DialogServiceImpl implements DialogService {
   private long calculateHoldTime(Dialog dialog){
     
     LocalDateTime now = LocalDateTime.now();
-    LocalDateTime dt = dialog.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+    LocalDateTime dt = dialog.getDate().toInstant().atZone(zoneId).toLocalDateTime();
     return Duration.between(dt, now).getSeconds();
   }
 
@@ -88,6 +90,19 @@ public class DialogServiceImpl implements DialogService {
     m.setDate(d.toString());
     m.setTime(dt.getHour()+":"+dt.getMinute()+":"+dt.getSecond());
     dialogDao.findAndPushMessage(message.getDialog_id(), m);
+  }
+  
+  @Async
+  @Override
+  public void addChatEndedMessage(String dialog_id){
+    
+    LocalDateTime dt = LocalDateTime.now();
+    LocalDate d = LocalDate.now();
+    Message m = new Message();
+    m.setText(CHAT_ENDED);
+    m.setDate(d.toString());
+    m.setTime(dt.getHour()+":"+dt.getMinute()+":"+dt.getSecond());
+    dialogDao.findAndPushMessage(dialog_id, m);
   }
   
   

@@ -13,4 +13,6 @@ public interface DialogService {
 
   void saveMessageFromClient(WebSocketMessageDTO message);
 
+  void addChatEndedMessage(String dialog_id);
+
 }
