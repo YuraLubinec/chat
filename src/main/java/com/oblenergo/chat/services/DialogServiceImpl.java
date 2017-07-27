@@ -1,7 +1,6 @@
 package com.oblenergo.chat.services;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -70,12 +69,10 @@ public class DialogServiceImpl implements DialogService {
   public void saveMessageFromOperator(WebSocketMessageDTO message) {
     
     LocalDateTime dt = LocalDateTime.now();
-    LocalDate d = LocalDate.now();
     Message m = new Message();
     m.setText(message.getText());
     m.setOperator_login("operator");
-    m.setDate(d.toString());
-    m.setTime(dt.getHour()+":"+dt.getMinute()+":"+dt.getSecond());
+    m.setDate(Date.from(dt.atZone(zoneId).toInstant()));
     dialogDao.findAndPushMessage(message.getDialog_id(), m);
   }
 
@@ -84,11 +81,9 @@ public class DialogServiceImpl implements DialogService {
   public void saveMessageFromClient(WebSocketMessageDTO message) {
    
     LocalDateTime dt = LocalDateTime.now();
-    LocalDate d = LocalDate.now();
     Message m = new Message();
     m.setText(message.getText());
-    m.setDate(d.toString());
-    m.setTime(dt.getHour()+":"+dt.getMinute()+":"+dt.getSecond());
+    m.setDate(Date.from(dt.atZone(zoneId).toInstant()));
     dialogDao.findAndPushMessage(message.getDialog_id(), m);
   }
   
@@ -97,11 +92,9 @@ public class DialogServiceImpl implements DialogService {
   public void addChatEndedMessage(String dialog_id){
     
     LocalDateTime dt = LocalDateTime.now();
-    LocalDate d = LocalDate.now();
     Message m = new Message();
     m.setText(CHAT_ENDED);
-    m.setDate(d.toString());
-    m.setTime(dt.getHour()+":"+dt.getMinute()+":"+dt.getSecond());
+    m.setDate(Date.from(dt.atZone(zoneId).toInstant()));
     dialogDao.findAndPushMessage(dialog_id, m);
   }
   
