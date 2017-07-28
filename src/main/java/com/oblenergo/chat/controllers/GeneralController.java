@@ -10,8 +10,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.client.HttpStatusCodeException;
-import org.springframework.web.client.RestClientException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,22 +32,6 @@ public class GeneralController {
    
     FieldError error = ex.getBindingResult().getFieldErrors().get(FIRST_FIELD_NOT_PASSED_VALIDATION);
     return messageSource.getMessage(error.getCode() + "." + error.getObjectName() + "." + error.getField(), null, FALLBACKOPTION, null);
-  }
-
-  @ExceptionHandler(HttpStatusCodeException.class)
-  @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = DEFAULTFAILUREMESSAGE)
-  public void errorHttpStatus(HttpStatusCodeException e) {
-
-    log.error("Error occurred with indicator service " + e.getStatusCode().value(), e);
-    throw e;
-  }
-
-  @ExceptionHandler(RestClientException.class)
-  @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = DEFAULTFAILUREMESSAGE)
-  public void errorRestClient(RestClientException e) {
-
-    log.error("Error occurred with indicator service ", e);
-    throw e;
   }
 
   @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
