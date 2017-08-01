@@ -22,7 +22,7 @@ public class Dialog implements Serializable{
   @Field
   private Date date;
   @Field
-  private String customer_id;
+  private String customerId;
   @Field
   private String operator;
   @Field

@@ -24,6 +24,22 @@ public class ChatController {
 
     return dialogService.createDialogAndReturnId(client_id);
   }
+  // front-end implementation needed
+  // @MessageMapping("/connect/physical/{client_id}")
+  // @SendTo("/topic/allChat")
+  // public ConnectMessageDTO
+  // getConnectionForPhysicalCustomer(@DestinationVariable String client_id) {
+  //
+  // return dialogService.createDialogAndReturnId(client_id);
+  // }
+  //
+  // @MessageMapping("/connect/juridical/{client_id}")
+  // @SendTo("/topic/allChat")
+  // public ConnectMessageDTO
+  // getConnectionForJuridicalCustomer(@DestinationVariable String client_id) {
+  //
+  // return dialogService.createDialogAndReturnId(client_id);
+  // }
 
   @MessageMapping("/checkClientRequestArray")
   @SendTo("/topic/checkClientRequestArray")
@@ -55,11 +71,11 @@ public class ChatController {
     dialogService.saveMessageFromOperator(message);
     return message;
   }
-  
+
   @MessageMapping("/endNotification/{client_id}/{dialog_id}")
   @SendTo("/queue/{client_id}")
-  public EndConnectionDTO notifyAboutConnectionEnd(@DestinationVariable String dialog_id){
-    
+  public EndConnectionDTO notifyAboutConnectionEnd(@DestinationVariable String dialog_id) {
+
     dialogService.addChatEndedMessage(dialog_id);
     return new EndConnectionDTO();
   }
