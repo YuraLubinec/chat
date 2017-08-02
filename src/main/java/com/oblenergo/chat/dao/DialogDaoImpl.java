@@ -22,4 +22,17 @@ public class DialogDaoImpl implements DialogDao {
         new Query().addCriteria(Criteria.where("id").is(dialog_id)), new Update().push("messages", m), Dialog.class);
     
   }
+  
+/*  @Override 
+  public List<Dialog> findByCustomerIdAndDate(String customerId, Date date, Date nextDay){
+    Query query = new Query();
+    query.with(new Sort(Sort.Direction.DESC, "date"));
+    query.addCriteria(.addCriteria(Criteria.where("customerId").is(customerId).a))
+    return mongoTemplate.find(new Query().addCriteria(Criteria.where("customerId").is(customerId).a), Dialog.class);
+  }
+  
+  @Override
+  public List<Dialog> findByOperatorAndDate(String operator, Date date, Date nextDay){
+    
+  }*/
 }

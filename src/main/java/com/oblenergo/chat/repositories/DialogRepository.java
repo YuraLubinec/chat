@@ -12,8 +12,15 @@ public interface DialogRepository extends MongoRepository<Dialog, String> {
   Stream<Dialog> findByCustomerIdIgnoreCaseOrderByDateDesc(String customerId);
 
   Stream<Dialog> findByOperatorIgnoreCaseOrderByDateDesc(String operator);
+  
+  Stream<Dialog> findByDateBetweenOrderByDateDesc(Date date, Date nextDay);
 
-  Stream<Dialog> findByCustomerIdAndDateAllIgnoreCaseOrderByDateDesc(String customerId, Date date);
+  Stream<Dialog> findByCustomerIdIgnoreCaseAndDateBetweenOrderByDateDesc(String customerId, Date date, Date nextDay);
 
-  Stream<Dialog> findByOperatorAndDateAllIgnoreCaseOrderByDateDesc(String operator, Date date);
+  Stream<Dialog> findByOperatorIgnoreCaseAndDateBetweenOrderByDateDesc(String operator, Date date, Date nextDay);
+  
+  Stream<Dialog> findByCustomerIdAndOperatorAllIgnoreCaseOrderByDateDesc(String customerId, String operator);
+  
+  Stream<Dialog> findByCustomerIdIgnoreCaseAndOperatorIgnoreCaseAndDateBetweenOrderByDateDesc(String operator, String customerId, Date date, Date nextDay);
+  
 }
