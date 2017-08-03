@@ -20,4 +20,6 @@ public interface SearchService {
   
   List<DialogDTO> getAllOperatorAndCustomerDialogsForDate(String operator, String customerId, String date);
 
+  List<DialogDTO> findByWord(String text);
+
 }

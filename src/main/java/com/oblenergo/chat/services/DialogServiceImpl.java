@@ -121,6 +121,7 @@ public class DialogServiceImpl implements DialogService {
     LocalDateTime dt = LocalDateTime.now();
     Message m = new Message();
     m.setText(CHAT_ENDED);
+    m.setOperator_login("operator");
     m.setDate(Date.from(dt.atZone(zoneId).toInstant()));
     dialogDao.findAndPushMessage(dialog_id, m);
   }

@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.oblenergo.chat.dao.DialogDao;
 import com.oblenergo.chat.dto.DialogDTO;
 import com.oblenergo.chat.dto.MessageDTO;
 import com.oblenergo.chat.models.Dialog;
@@ -20,15 +21,18 @@ import com.oblenergo.chat.repositories.DialogRepository;
 
 @Service
 public class SearchServiceImpl implements SearchService {
-  
+
   private static final long ONE_DAY = 1;
   private static final String DATEPATTERN = "yyyy-MM-dd";
   private static final String DATETIMEPATTERN = "yyyy-MM-dd HH:mm:ss";
   private ZoneId zoneId = ZoneId.systemDefault();
-  
+
   @Autowired
   private DialogRepository dialogRepository;
-  
+
+  @Autowired
+  private DialogDao dialogDao;
+
   @Override
   public List<DialogDTO> getAllOperatorDialogs(String operator) {
 
@@ -48,11 +52,11 @@ public class SearchServiceImpl implements SearchService {
     }
     return dialogs;
   }
-  
+
   @Override
   public List<DialogDTO> getAllOperatorDialogsForDate(String operator, String date) {
-    
-    LocalDate dt = parseToLocalDate(date); 
+
+    LocalDate dt = parseToLocalDate(date);
     LocalDate dtnextDay = dt.plusDays(ONE_DAY);
     Date begin = convertToDate(dt);
     Date end = convertToDate(dtnextDay);
@@ -62,11 +66,11 @@ public class SearchServiceImpl implements SearchService {
     }
     return dialogs;
   }
-  
+
   @Override
   public List<DialogDTO> getAllCustomerDialogsForDate(String customerId, String date) {
-    
-    LocalDate dt = parseToLocalDate(date); 
+
+    LocalDate dt = parseToLocalDate(date);
     LocalDate dtnextDay = dt.plusDays(ONE_DAY);
     Date begin = convertToDate(dt);
     Date end = convertToDate(dtnextDay);
@@ -76,11 +80,11 @@ public class SearchServiceImpl implements SearchService {
     }
     return dialogs;
   }
-  
+
   @Override
   public List<DialogDTO> getAllDialogsForDate(String date) {
-    
-    LocalDate dt = parseToLocalDate(date); 
+
+    LocalDate dt = parseToLocalDate(date);
     LocalDate dtnextDay = dt.plusDays(ONE_DAY);
     Date begin = convertToDate(dt);
     Date end = convertToDate(dtnextDay);
@@ -93,7 +97,7 @@ public class SearchServiceImpl implements SearchService {
 
   @Override
   public List<DialogDTO> getAllOperatorAndCustomerDialogs(String operator, String customerId) {
-    
+
     List<DialogDTO> dialogs = null;
     try (Stream<Dialog> dialogStream = dialogRepository.findByCustomerIdAndOperatorAllIgnoreCaseOrderByDateDesc(customerId, operator)) {
       dialogs = dialogStream.map(dialog -> convertDialog(dialog)).collect(Collectors.toList());
@@ -103,24 +107,33 @@ public class SearchServiceImpl implements SearchService {
 
   @Override
   public List<DialogDTO> getAllOperatorAndCustomerDialogsForDate(String operator, String customerId, String date) {
-    
-    LocalDate dt = parseToLocalDate(date); 
+
+    LocalDate dt = parseToLocalDate(date);
     LocalDate dtnextDay = dt.plusDays(ONE_DAY);
     Date begin = convertToDate(dt);
     Date end = convertToDate(dtnextDay);
     List<DialogDTO> dialogs = null;
-    try (Stream<Dialog> dialogStream = dialogRepository.findByCustomerIdIgnoreCaseAndOperatorIgnoreCaseAndDateBetweenOrderByDateDesc(customerId, operator, begin, end)) {
+    try (Stream<Dialog> dialogStream = dialogRepository.findByCustomerIdIgnoreCaseAndOperatorIgnoreCaseAndDateBetweenOrderByDateDesc(customerId, operator,
+        begin, end)) {
       dialogs = dialogStream.map(dialog -> convertDialog(dialog)).collect(Collectors.toList());
     }
     return dialogs;
   }
-  
-  private LocalDate parseToLocalDate(String date){
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATEPATTERN);
-    return LocalDate.parse(date, formatter); 
+
+  @Override
+  public List<DialogDTO> findByWord(String text) {
+
+    return dialogDao.findAllByWord(text).stream().map(dialog -> convertDialog(dialog)).collect(Collectors.toList());
   }
-  
-  private Date convertToDate(LocalDate dt){
+
+  private LocalDate parseToLocalDate(String date) {
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATEPATTERN);
+    return LocalDate.parse(date, formatter);
+  }
+
+  private Date convertToDate(LocalDate dt) {
+
     return Date.from(dt.atStartOfDay(zoneId).toInstant());
   }
 

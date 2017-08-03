@@ -19,7 +19,7 @@ import com.oblenergo.chat.services.userDetails.ChatUserDetailsService;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   private final static String REALM = "Oblenergo chat service";
-  
+
   @Autowired
   private AuthenticationEntryPoint authenticationEntryPoint;
 
@@ -29,8 +29,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
 
-    http.csrf().disable().authorizeRequests().antMatchers("/", "/chat-websocket/**").permitAll().antMatchers("/admin","/admin/**").hasAuthority("ADMIN").anyRequest().authenticated().and()
-        .httpBasic().realmName(REALM).authenticationEntryPoint(authenticationEntryPoint).and().cors().and().logout()
+    http.csrf().disable().authorizeRequests()
+        .antMatchers("/", "/chat-websocket/**").permitAll()
+        .antMatchers(HttpMethod.GET, "/user","/user/authority", "/user/{username}").authenticated()
+        .antMatchers("/admin", "/admin/**", "/user/**").hasAuthority("ADMIN")
+        .anyRequest().authenticated().and().httpBasic().realmName(REALM)
+        .authenticationEntryPoint(authenticationEntryPoint).and().cors().and().logout()
         .logoutSuccessHandler((new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)));
   }
 
