@@ -1,6 +1,7 @@
 package com.oblenergo.chat.services;
 
-import java.time.LocalDate;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -19,10 +20,11 @@ import com.oblenergo.chat.models.Dialog;
 import com.oblenergo.chat.models.Message;
 import com.oblenergo.chat.repositories.DialogRepository;
 
+import lombok.SneakyThrows;
+
 @Service
 public class SearchServiceImpl implements SearchService {
 
-  private static final long ONE_DAY = 1;
   private static final String DATEPATTERN = "yyyy-MM-dd";
   private static final String DATETIMEPATTERN = "yyyy-MM-dd HH:mm:ss";
   private ZoneId zoneId = ZoneId.systemDefault();
@@ -54,12 +56,10 @@ public class SearchServiceImpl implements SearchService {
   }
 
   @Override
-  public List<DialogDTO> getAllOperatorDialogsForDate(String operator, String date) {
-
-    LocalDate dt = parseToLocalDate(date);
-    LocalDate dtnextDay = dt.plusDays(ONE_DAY);
-    Date begin = convertToDate(dt);
-    Date end = convertToDate(dtnextDay);
+  public List<DialogDTO> getAllOperatorDialogsForDate(String operator, String dateStart, String dateEnd) {
+   
+    Date begin = parseToDate(dateStart);
+    Date end = parseToDate(dateEnd);
     List<DialogDTO> dialogs = null;
     try (Stream<Dialog> dialogStream = dialogRepository.findByOperatorIgnoreCaseAndDateBetweenOrderByDateDesc(operator, begin, end)) {
       dialogs = dialogStream.map(dialog -> convertDialog(dialog)).collect(Collectors.toList());
@@ -68,12 +68,10 @@ public class SearchServiceImpl implements SearchService {
   }
 
   @Override
-  public List<DialogDTO> getAllCustomerDialogsForDate(String customerId, String date) {
+  public List<DialogDTO> getAllCustomerDialogsForDate(String customerId, String dateStart, String dateEnd) {
 
-    LocalDate dt = parseToLocalDate(date);
-    LocalDate dtnextDay = dt.plusDays(ONE_DAY);
-    Date begin = convertToDate(dt);
-    Date end = convertToDate(dtnextDay);
+    Date begin = parseToDate(dateStart);
+    Date end = parseToDate(dateEnd);
     List<DialogDTO> dialogs = null;
     try (Stream<Dialog> dialogStream = dialogRepository.findByCustomerIdIgnoreCaseAndDateBetweenOrderByDateDesc(customerId, begin, end)) {
       dialogs = dialogStream.map(dialog -> convertDialog(dialog)).collect(Collectors.toList());
@@ -82,12 +80,10 @@ public class SearchServiceImpl implements SearchService {
   }
 
   @Override
-  public List<DialogDTO> getAllDialogsForDate(String date) {
+  public List<DialogDTO> getAllDialogsForDate(String dateStart, String dateEnd) {
 
-    LocalDate dt = parseToLocalDate(date);
-    LocalDate dtnextDay = dt.plusDays(ONE_DAY);
-    Date begin = convertToDate(dt);
-    Date end = convertToDate(dtnextDay);
+    Date begin = parseToDate(dateStart);
+    Date end = parseToDate(dateEnd);
     List<DialogDTO> dialogs = null;
     try (Stream<Dialog> dialogStream = dialogRepository.findByDateBetweenOrderByDateDesc(begin, end)) {
       dialogs = dialogStream.map(dialog -> convertDialog(dialog)).collect(Collectors.toList());
@@ -106,12 +102,10 @@ public class SearchServiceImpl implements SearchService {
   }
 
   @Override
-  public List<DialogDTO> getAllOperatorAndCustomerDialogsForDate(String operator, String customerId, String date) {
+  public List<DialogDTO> getAllOperatorAndCustomerDialogsForDate(String operator, String customerId, String dateStart, String dateEnd) {
 
-    LocalDate dt = parseToLocalDate(date);
-    LocalDate dtnextDay = dt.plusDays(ONE_DAY);
-    Date begin = convertToDate(dt);
-    Date end = convertToDate(dtnextDay);
+    Date begin = parseToDate(dateStart);
+    Date end = parseToDate(dateEnd);
     List<DialogDTO> dialogs = null;
     try (Stream<Dialog> dialogStream = dialogRepository.findByCustomerIdIgnoreCaseAndOperatorIgnoreCaseAndDateBetweenOrderByDateDesc(customerId, operator,
         begin, end)) {
@@ -125,16 +119,12 @@ public class SearchServiceImpl implements SearchService {
 
     return dialogDao.findAllByWord(text).stream().map(dialog -> convertDialog(dialog)).collect(Collectors.toList());
   }
+  
+  @SneakyThrows
+  private Date parseToDate(String date) {
 
-  private LocalDate parseToLocalDate(String date) {
-
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATEPATTERN);
-    return LocalDate.parse(date, formatter);
-  }
-
-  private Date convertToDate(LocalDate dt) {
-
-    return Date.from(dt.atStartOfDay(zoneId).toInstant());
+    DateFormat formatter = new SimpleDateFormat(DATEPATTERN);
+    return formatter.parse(date);
   }
 
   private DialogDTO convertDialog(Dialog dialog) {

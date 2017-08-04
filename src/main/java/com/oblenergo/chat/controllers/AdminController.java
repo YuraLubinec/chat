@@ -35,32 +35,32 @@ public class AdminController {
     return searchService.getAllCustomerDialogs(customer_id);
   }
   
-  @GetMapping("/dialog/operator/{operator_identifier}/{date}")
+  @GetMapping("/dialog/operator/{operator_identifier}/{dateStart}/{dateEnd}")
   @ResponseStatus(HttpStatus.OK)
-  public List<DialogDTO> getAllOperatorDialogsForDate(@PathVariable String operator_identifier, @PathVariable String date){
+  public List<DialogDTO> getAllOperatorDialogsForDate(@PathVariable String operator_identifier, @PathVariable String dateStart, @PathVariable String dateEnd){
    
-    return searchService.getAllOperatorDialogsForDate(operator_identifier, date);
+    return searchService.getAllOperatorDialogsForDate(operator_identifier, dateStart, dateEnd);
   }
   
-  @GetMapping("/dialog/customer/{customer_id}/{date}")
+  @GetMapping("/dialog/customer/{customer_id}/{dateStart}/{dateEnd}")
   @ResponseStatus(HttpStatus.OK)
-  public List<DialogDTO> getAllCustomerDialogsForDate(@PathVariable String customer_id, @PathVariable String date){
+  public List<DialogDTO> getAllCustomerDialogsForDate(@PathVariable String customer_id, @PathVariable String dateStart, @PathVariable String dateEnd){
    
-    return searchService.getAllCustomerDialogsForDate(customer_id, date);
+    return searchService.getAllCustomerDialogsForDate(customer_id, dateStart, dateEnd);
   }
   
-  @GetMapping("/dialog/date/{date}")
+  @GetMapping("/dialog/date/{dateStart}/{dateEnd}")
   @ResponseStatus(HttpStatus.OK)
-  public List<DialogDTO> getAllForDate(@PathVariable String date){
+  public List<DialogDTO> getAllForDate(@PathVariable String dateStart, @PathVariable String dateEnd){
     
-    return searchService.getAllDialogsForDate(date);
+    return searchService.getAllDialogsForDate(dateStart, dateEnd);
   }
   
-  @GetMapping("/dialog/{customer_id}/{operator}/{date}")
+  @GetMapping("/dialog/{customer_id}/{operator}/{dateStart}/{dateEnd}")
   @ResponseStatus(HttpStatus.OK)
-  public List<DialogDTO> getAllCustomerAndOperatorDialogsForDate(@PathVariable String customer_id, @PathVariable String operator, @PathVariable String date){
+  public List<DialogDTO> getAllCustomerAndOperatorDialogsForDate(@PathVariable String customer_id, @PathVariable String operator, @PathVariable String dateStart, @PathVariable String dateEnd){
    
-    return searchService.getAllOperatorAndCustomerDialogsForDate(operator, customer_id, date);
+    return searchService.getAllOperatorAndCustomerDialogsForDate(operator, customer_id, dateStart, dateEnd);
   }
   
   @GetMapping("/dialog/{customer_id}/{operator}")

@@ -10,15 +10,15 @@ public interface SearchService {
 
   List<DialogDTO> getAllCustomerDialogs(String customerId);
   
-  List<DialogDTO> getAllDialogsForDate(String date);
+  List<DialogDTO> getAllDialogsForDate(String dateStart, String dateEnd);
 
-  List<DialogDTO> getAllOperatorDialogsForDate(String operator, String date);
+  List<DialogDTO> getAllOperatorDialogsForDate(String operator, String dateStart, String dateEnd);
 
-  List<DialogDTO> getAllCustomerDialogsForDate(String customerId, String date);
+  List<DialogDTO> getAllCustomerDialogsForDate(String customerId, String dateStart, String dateEnd);
   
   List<DialogDTO> getAllOperatorAndCustomerDialogs(String operator, String customerId);
   
-  List<DialogDTO> getAllOperatorAndCustomerDialogsForDate(String operator, String customerId, String date);
+  List<DialogDTO> getAllOperatorAndCustomerDialogsForDate(String operator, String customerId, String dateStart, String dateEnd);
 
   List<DialogDTO> findByWord(String text);
 

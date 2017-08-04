@@ -27,6 +27,7 @@ public class DialogDaoImpl implements DialogDao {
 
   @Override
   public List<Dialog> findAllByWord(String text) {
+
     return mongoTemplate.find(new Query().addCriteria(TextCriteria.forDefaultLanguage().matchingPhrase(text)), Dialog.class);
   }
 
