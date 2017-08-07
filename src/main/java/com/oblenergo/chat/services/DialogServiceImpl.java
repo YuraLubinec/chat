@@ -38,6 +38,7 @@ public class DialogServiceImpl implements DialogService {
     Dialog dialog = new Dialog();
     dialog.setCustomerId(id);
     dialog.setDate(Date.from(dt.atZone(zoneId).toInstant()));
+    dialog.setRate(5);
     dialogRepository.insert(dialog);
     return createAndReturnConnectMessageDTO(dialog, id);
   }
