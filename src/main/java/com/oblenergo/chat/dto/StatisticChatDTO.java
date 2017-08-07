@@ -9,8 +9,7 @@ public class StatisticChatDTO implements Serializable{
 	
 	private static final long serialVersionUID = 5895595558094105167L;
 	
-//	private String operator;
-//	private String customer;
+	private String _id;
 	private long countAll;
 	private long countLost;
 	private long countHandled;

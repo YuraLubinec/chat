@@ -1,23 +1,18 @@
 package com.oblenergo.chat.services;
 
-import java.util.Map;
+import java.util.List;
 
 import com.oblenergo.chat.dto.StatisticChatDTO;
 
 public interface StatisticChatService {
-	
-	// common by all
-	StatisticChatDTO getCountByAllOperatorsByDate(String dateFrom, String dateTo);
-	
-	// operator
-	StatisticChatDTO getCountAllByOperatorByDate(String operator, String dateFrom, String dateTo);
-	
-	// operator list stat
-	Map<String, StatisticChatDTO> getOperatorStatListByDate(String dateBeg, String dateEnd);
 
-	// customer
-	StatisticChatDTO getCountAllByCustomerIdByDate(String customerid, String dateBeg, String dateEnd);
-	
-	// customer list stat
-	Map<String, StatisticChatDTO> getCustomerStatListByDate(String dateBeg, String dateEnd);	
+  StatisticChatDTO getGeneralStatisticForDate(String dateFrom, String dateTo);
+
+  StatisticChatDTO getOperatorStatisticForDate(String operator, String dateFrom, String dateTo);
+
+  List<StatisticChatDTO> getAllOperatorsStatisticForDate(String dateBeg, String dateEnd);
+
+  StatisticChatDTO getCustomerStatisticForDate(String customerid, String dateBeg, String dateEnd);
+
+  List<StatisticChatDTO> getAllCustomersStatisticForDate(String dateBeg, String dateEnd);
 }
