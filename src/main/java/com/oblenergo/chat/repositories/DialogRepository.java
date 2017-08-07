@@ -23,4 +23,11 @@ public interface DialogRepository extends MongoRepository<Dialog, String> {
   
   Stream<Dialog> findByCustomerIdIgnoreCaseAndOperatorIgnoreCaseAndDateBetweenOrderByDateDesc(String operator, String customerId, Date date, Date nextDay);
   
+  //chat statistic
+  long countByDateBetween(Date dateFrom, Date dateTo);
+
+  long countByOperatorAndDateBetween(String operator, Date dateFrom, Date dateTo);
+ 
+  long countByCustomerIdAndDateBetween(String customerId, Date dateFrom, Date dateTo); 
+  
 }
