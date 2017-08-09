@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.oblenergo.chat.dao.DialogDao;
 import com.oblenergo.chat.dto.ConnectMessageDTO;
 import com.oblenergo.chat.dto.WebSocketMessageDTO;
+import com.oblenergo.chat.enums.Reasons;
 import com.oblenergo.chat.models.Dialog;
 import com.oblenergo.chat.models.Message;
 import com.oblenergo.chat.repositories.DialogRepository;
@@ -28,44 +29,32 @@ public class DialogServiceImpl implements DialogService {
   @Autowired
   private DialogDao dialogDao;
 
-//  @Autowired
-//  private StatisticService statisticService;
+  @Autowired
+  private StatisticService statisticService;
 
   @Override
-  public ConnectMessageDTO createDialogAndReturnId(String id) {
+  public ConnectMessageDTO createDialogAndReturnIdPhys(String id) {
 
     LocalDateTime dt = LocalDateTime.now();
     Dialog dialog = new Dialog();
     dialog.setCustomerId(id);
     dialog.setDate(Date.from(dt.atZone(zoneId).toInstant()));
-    dialog.setRate(5);
     dialogRepository.insert(dialog);
+    statisticService.saveStatisticForPhysCustomer(id, Reasons.CONSULTATION);
     return createAndReturnConnectMessageDTO(dialog, id);
   }
-  // create dialog and add record to statistic
-  // @Override
-  // public ConnectMessageDTO createDialogAndReturnIdPhys(String id) {
-  //
-  // LocalDateTime dt = LocalDateTime.now();
-  // Dialog dialog = new Dialog();
-  // dialog.setCustomerId(id);
-  // dialog.setDate(Date.from(dt.atZone(zoneId).toInstant()));
-  // dialogRepository.insert(dialog);
-  // statisticService.saveStatisticForPhysCustomer(id, Reasons.CONSULTATION);
-  // return createAndReturnConnectMessageDTO(dialog, id);
-  // }
-  //
-  // @Override
-  // public ConnectMessageDTO createDialogAndReturnIdJur(String id) {
-  //
-  // LocalDateTime dt = LocalDateTime.now();
-  // Dialog dialog = new Dialog();
-  // dialog.setCustomerId(id);
-  // dialog.setDate(Date.from(dt.atZone(zoneId).toInstant()));
-  // dialogRepository.insert(dialog);
-  // statisticService.saveStatisticForJurCustomer(id, Reasons.CONSULTATION);
-  // return createAndReturnConnectMessageDTO(dialog, id);
-  // }
+
+  @Override
+  public ConnectMessageDTO createDialogAndReturnIdJur(String id) {
+
+    LocalDateTime dt = LocalDateTime.now();
+    Dialog dialog = new Dialog();
+    dialog.setCustomerId(id);
+    dialog.setDate(Date.from(dt.atZone(zoneId).toInstant()));
+    dialogRepository.insert(dialog);
+    statisticService.saveStatisticForJurCustomer(id, Reasons.CONSULTATION);
+    return createAndReturnConnectMessageDTO(dialog, id);
+  }
 
   private ConnectMessageDTO createAndReturnConnectMessageDTO(Dialog dialog, String id) {
 

@@ -18,28 +18,19 @@ public class ChatController {
   @Autowired
   private DialogService dialogService;
 
-  @MessageMapping("/connect/{client_id}")
+  @MessageMapping("/connect/physical/{client_id}")
   @SendTo("/topic/allChat")
-  public ConnectMessageDTO getConnection(@DestinationVariable String client_id) {
+  public ConnectMessageDTO getConnectionForPhysicalCustomer(@DestinationVariable String client_id) {
 
-    return dialogService.createDialogAndReturnId(client_id);
+    return dialogService.createDialogAndReturnIdPhys(client_id);
   }
-  // front-end implementation needed
-  // @MessageMapping("/connect/physical/{client_id}")
-  // @SendTo("/topic/allChat")
-  // public ConnectMessageDTO
-  // getConnectionForPhysicalCustomer(@DestinationVariable String client_id) {
-  //
-  // return dialogService.createDialogAndReturnId(client_id);
-  // }
-  //
-  // @MessageMapping("/connect/juridical/{client_id}")
-  // @SendTo("/topic/allChat")
-  // public ConnectMessageDTO
-  // getConnectionForJuridicalCustomer(@DestinationVariable String client_id) {
-  //
-  // return dialogService.createDialogAndReturnId(client_id);
-  // }
+
+  @MessageMapping("/connect/juridical/{client_id}")
+  @SendTo("/topic/allChat")
+  public ConnectMessageDTO getConnectionForJuridicalCustomer(@DestinationVariable String client_id) {
+
+    return dialogService.createDialogAndReturnIdJur(client_id);
+  }
 
   @MessageMapping("/checkClientRequestArray")
   @SendTo("/topic/checkClientRequestArray")
