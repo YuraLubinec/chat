@@ -57,11 +57,12 @@ public class SearchServiceImpl implements SearchService {
 
   @Override
   public List<DialogDTO> getAllOperatorDialogsForDate(String operator, String dateStart, String dateEnd) {
-   
+
     Date begin = parseToDate(dateStart);
     Date end = parseToDate(dateEnd);
     List<DialogDTO> dialogs = null;
-    try (Stream<Dialog> dialogStream = dialogRepository.findByOperatorIgnoreCaseAndDateBetweenOrderByDateDesc(operator, begin, end)) {
+    try (Stream<Dialog> dialogStream = dialogRepository.findByOperatorIgnoreCaseAndDateBetweenOrderByDateDesc(operator,
+        begin, end)) {
       dialogs = dialogStream.map(dialog -> convertDialog(dialog)).collect(Collectors.toList());
     }
     return dialogs;
@@ -73,7 +74,8 @@ public class SearchServiceImpl implements SearchService {
     Date begin = parseToDate(dateStart);
     Date end = parseToDate(dateEnd);
     List<DialogDTO> dialogs = null;
-    try (Stream<Dialog> dialogStream = dialogRepository.findByCustomerIdIgnoreCaseAndDateBetweenOrderByDateDesc(customerId, begin, end)) {
+    try (Stream<Dialog> dialogStream = dialogRepository
+        .findByCustomerIdIgnoreCaseAndDateBetweenOrderByDateDesc(customerId, begin, end)) {
       dialogs = dialogStream.map(dialog -> convertDialog(dialog)).collect(Collectors.toList());
     }
     return dialogs;
@@ -95,20 +97,23 @@ public class SearchServiceImpl implements SearchService {
   public List<DialogDTO> getAllOperatorAndCustomerDialogs(String operator, String customerId) {
 
     List<DialogDTO> dialogs = null;
-    try (Stream<Dialog> dialogStream = dialogRepository.findByCustomerIdAndOperatorAllIgnoreCaseOrderByDateDesc(customerId, operator)) {
+    try (Stream<Dialog> dialogStream = dialogRepository
+        .findByCustomerIdAndOperatorAllIgnoreCaseOrderByDateDesc(customerId, operator)) {
       dialogs = dialogStream.map(dialog -> convertDialog(dialog)).collect(Collectors.toList());
     }
     return dialogs;
   }
 
   @Override
-  public List<DialogDTO> getAllOperatorAndCustomerDialogsForDate(String operator, String customerId, String dateStart, String dateEnd) {
+  public List<DialogDTO> getAllOperatorAndCustomerDialogsForDate(String operator, String customerId, String dateStart,
+      String dateEnd) {
 
     Date begin = parseToDate(dateStart);
     Date end = parseToDate(dateEnd);
     List<DialogDTO> dialogs = null;
-    try (Stream<Dialog> dialogStream = dialogRepository.findByCustomerIdIgnoreCaseAndOperatorIgnoreCaseAndDateBetweenOrderByDateDesc(customerId, operator,
-        begin, end)) {
+    try (Stream<Dialog> dialogStream = dialogRepository
+        .findByCustomerIdIgnoreCaseAndOperatorIgnoreCaseAndDateBetweenOrderByDateDesc(customerId, operator, begin,
+            end)) {
       dialogs = dialogStream.map(dialog -> convertDialog(dialog)).collect(Collectors.toList());
     }
     return dialogs;
@@ -119,7 +124,7 @@ public class SearchServiceImpl implements SearchService {
 
     return dialogDao.findAllByWord(text).stream().map(dialog -> convertDialog(dialog)).collect(Collectors.toList());
   }
-  
+
   @SneakyThrows
   private Date parseToDate(String date) {
 
@@ -138,7 +143,9 @@ public class SearchServiceImpl implements SearchService {
     convertedDialog.setHoldTime(dialog.getHoldTime());
     convertedDialog.setRedirectTo(dialog.getRedirectTo());
     convertedDialog.setDate(dateTime.format(formatter));
-    convertedDialog.setMessages(dialog.getMessages().stream().map(message -> convertMesssage(message, formatter)).collect(Collectors.toList()));
+    convertedDialog.setMessages(
+        dialog.getMessages().stream().map(message -> convertMesssage(message, formatter)).collect(Collectors.toList()));
+
     return convertedDialog;
   }
 

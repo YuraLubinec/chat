@@ -12,9 +12,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import lombok.Data;
 
 @Data
-@Document(collection="dialogs")
-public class Dialog implements Serializable{
-  
+@Document(collection = "dialogs")
+public class Dialog implements Serializable {
+
   private static final long serialVersionUID = -8155879275429306631L;
 
   @Id

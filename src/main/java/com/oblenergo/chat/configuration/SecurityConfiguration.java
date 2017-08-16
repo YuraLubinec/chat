@@ -29,21 +29,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
 
-    http.csrf().disable().authorizeRequests()
-        .antMatchers("/", "/chat-websocket/**").permitAll()
-        .antMatchers(HttpMethod.GET, "/user","/user/authority", "/user/{username}").authenticated()
-        .antMatchers("/admin", "/admin/**", "/user/**").hasAuthority("ADMIN")
-        .anyRequest().authenticated().and().httpBasic().realmName(REALM)
-        .authenticationEntryPoint(authenticationEntryPoint).and().cors().and().logout()
+    http.csrf().disable().authorizeRequests().antMatchers("/", "/chat-websocket/**").permitAll()
+        .antMatchers(HttpMethod.GET, "/user", "/user/authority", "/user/{username}").authenticated()
+        .antMatchers("/admin", "/admin/**", "/user/**").hasAuthority("ADMIN").anyRequest().authenticated().and()
+        .httpBasic().realmName(REALM).authenticationEntryPoint(authenticationEntryPoint).and().cors().and().logout()
         .logoutSuccessHandler((new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)));
   }
 
   @Override
   public void configure(WebSecurity web) throws Exception {
-    String[] antPatternsGet = { "/customer/physical/{accountNumber:\\d+}", "/customer/physical/{accountNumber:\\d+}/report",
-        "/customer/physical/{accountNumber:\\d+}/bill" };
-    String[] antPatternsPost = { "/customer/physical/{accountNumber:\\d+}/indicator/onezone", "/customer/physical/{accountNumber:\\d+}/indicator/twozone",
-        "/customer/physical/{accountNumber:\\d+}/indicator/threezone", "/customer/juridical/report", "/customer/juridical" };
+    String[] antPatternsGet = { "/customer/physical/{accountNumber:\\d+}",
+        "/customer/physical/{accountNumber:\\d+}/report", "/customer/physical/{accountNumber:\\d+}/bill" };
+    String[] antPatternsPost = { "/customer/physical/{accountNumber:\\d+}/indicator/onezone",
+        "/customer/physical/{accountNumber:\\d+}/indicator/twozone",
+        "/customer/physical/{accountNumber:\\d+}/indicator/threezone", "/customer/juridical/report",
+        "/customer/juridical" };
 
     web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
     web.ignoring().antMatchers(HttpMethod.GET, antPatternsGet);

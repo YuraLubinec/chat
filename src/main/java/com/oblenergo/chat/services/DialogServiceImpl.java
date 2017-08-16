@@ -3,6 +3,7 @@ package com.oblenergo.chat.services;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ public class DialogServiceImpl implements DialogService {
     Dialog dialog = new Dialog();
     dialog.setCustomerId(id);
     dialog.setDate(Date.from(dt.atZone(zoneId).toInstant()));
+    dialog.setMessages(new ArrayList<>());
     dialogRepository.insert(dialog);
     statisticService.saveStatisticForPhysCustomer(id, Reasons.CONSULTATION);
     return createAndReturnConnectMessageDTO(dialog, id);
@@ -51,6 +53,7 @@ public class DialogServiceImpl implements DialogService {
     Dialog dialog = new Dialog();
     dialog.setCustomerId(id);
     dialog.setDate(Date.from(dt.atZone(zoneId).toInstant()));
+    dialog.setMessages(new ArrayList<>());
     dialogRepository.insert(dialog);
     statisticService.saveStatisticForJurCustomer(id, Reasons.CONSULTATION);
     return createAndReturnConnectMessageDTO(dialog, id);

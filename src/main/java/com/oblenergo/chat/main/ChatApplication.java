@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration;
 import org.springframework.context.annotation.PropertySource;
 
-@SpringBootApplication(scanBasePackages = "com.oblenergo.chat", exclude = SecurityAutoConfiguration.class )
+@SpringBootApplication(scanBasePackages = "com.oblenergo.chat", exclude = SecurityAutoConfiguration.class)
 @PropertySource("classpath:serviceSecure.properties")
 public class ChatApplication {
 
