@@ -21,8 +21,9 @@ public class MailController {
   @ResponseStatus(HttpStatus.OK)
   public void mailSendController(@RequestBody MailSendDTO complaint) {
 
-    System.out.println("Service mail : " + complaint.getClientId() + "  " + complaint.getText());
-    mailService.sendMail(complaint.getClientId(), complaint.getText());
+    System.out.println(
+        "Service mail : " + complaint.getClientId() + "  " + complaint.getText() + " email : " + complaint.getEmail());
+    mailService.sendMail(complaint.getClientId(), complaint.getText(), complaint.getEmail());
   }
 
 }

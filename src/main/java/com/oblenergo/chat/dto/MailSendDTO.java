@@ -7,4 +7,5 @@ public class MailSendDTO {
 
   String clientId;
   String text;
+  String email;
 }

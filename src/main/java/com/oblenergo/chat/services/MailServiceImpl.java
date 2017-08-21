@@ -29,13 +29,14 @@ public class MailServiceImpl implements MailService {
   private JavaMailSenderImpl senderImpl;
 
   @Override
-  public void sendMail(String clientId, String text) {
+  public void sendMail(String clientId, String text, String clientEmail) {
     try {
 
       MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
 
       System.out.println("sender: " + sender);
       System.out.println("receiver: " + receiver);
+      System.out.println("Email : " + clientEmail);
 
       messageHelper.setFrom(sender);
       messageHelper.setTo(receiver);
