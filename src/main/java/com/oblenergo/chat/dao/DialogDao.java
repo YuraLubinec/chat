@@ -11,4 +11,6 @@ public interface DialogDao {
 
   List<Dialog> findAllByWord(String text);
 
+  void findAndPushRate(String dialog_id, int rate);
+
 }

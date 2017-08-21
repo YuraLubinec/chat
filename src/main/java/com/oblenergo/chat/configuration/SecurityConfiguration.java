@@ -43,7 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     String[] antPatternsPost = { "/customer/physical/{accountNumber:\\d+}/indicator/onezone",
         "/customer/physical/{accountNumber:\\d+}/indicator/twozone",
         "/customer/physical/{accountNumber:\\d+}/indicator/threezone", "/customer/juridical/report",
-        "/customer/juridical" };
+        "/customer/juridical", "/settingRate/{dialog_id}/{rate}" };
 
     web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
     web.ignoring().antMatchers(HttpMethod.GET, antPatternsGet);

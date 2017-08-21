@@ -12,6 +12,8 @@ public interface DialogService {
   void saveMessageFromClient(WebSocketMessageDTO message);
 
   void addChatEndedMessage(String dialog_id);
+  
+  void setRateForOperator(String dialog_id, int rate);
 
   ConnectMessageDTO createDialogAndReturnIdJur(String id);
 

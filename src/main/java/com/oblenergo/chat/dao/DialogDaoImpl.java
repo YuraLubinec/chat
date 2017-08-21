@@ -3,6 +3,7 @@ package com.oblenergo.chat.dao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -29,6 +30,12 @@ public class DialogDaoImpl implements DialogDao {
   public List<Dialog> findAllByWord(String text) {
 
     return mongoTemplate.find(new Query().addCriteria(TextCriteria.forDefaultLanguage().matchingPhrase(text)), Dialog.class);
+  }
+
+  @Override
+  public void findAndPushRate(String dialog_id, int rate) {
+	  mongoTemplate.findAndModify(new Query().addCriteria(Criteria.where("id").is(dialog_id)), 
+			  new Update().set("rate", rate), new FindAndModifyOptions().returnNew(true), Dialog.class);
   }
 
 }
