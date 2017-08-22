@@ -33,15 +33,10 @@ public class MailServiceImpl implements MailService {
     try {
 
       MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
-
-      System.out.println("sender: " + sender);
-      System.out.println("receiver: " + receiver);
-      System.out.println("Email : " + clientEmail);
-
       messageHelper.setFrom(sender);
       messageHelper.setTo(receiver);
       messageHelper.setText(text);
-      messageHelper.setSubject(clientId);
+      messageHelper.setSubject("Скарга від : " + clientId + " електронна пошта : " + clientEmail);
       senderImpl.send(mimeMessage);
     } catch (MessagingException e) {
 
